@@ -3,12 +3,10 @@ package com.exfilm.film.controller;
 import com.exfilm.film.*;
 import com.google.gson.Gson;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @RestController
 public class Controller
@@ -170,5 +168,41 @@ public class Controller
         System.out.println(proiezione.getNome_c() + " " + proiezione.getCitta_c() + " " + proiezione.getT_film());
         return ResponseEntity.status(201).body(json);
     }
-
+    @GetMapping("/attorilist")
+    ResponseEntity<String> listAt()
+    {
+        attori.forEach((element) -> System.out.println(element.getNome() + " " + element.getCognome() + " " + element.getTelefono() + " " + element.getTipoRecit() + " " + element.getEta()));
+        return ResponseEntity.status(200).body("");
+    }
+    @GetMapping("/filmlist")
+    ResponseEntity<String> listFi()
+    {
+        film.forEach((element) -> System.out.println(element.getTitolo() + " " + element.getGenere() + " " + element.getDataUscita()));
+        return ResponseEntity.status(200).body("");
+    }
+    @GetMapping("/registilist")
+    ResponseEntity<String> listRe()
+    {
+        registi.forEach((element) -> System.out.println(element.getNome() + " " + element.getCognome() + " " + element.getTelefono() + " " + element.getTipoRegia() + " " + element.getEta()));
+        return ResponseEntity.status(200).body("");
+    }
+    @GetMapping("/cinemalist")
+    ResponseEntity<String> listCi()
+    {
+        cinema.forEach((element) -> System.out.println(element.getNome() + " " + element.getCitta() + " " + element.getNumPosti() + " " + element.getIndirizzo()));
+        return ResponseEntity.status(200).body("");
+    }
+    @GetMapping("/partlist")
+    ResponseEntity<String> listpA()
+    {
+        part.forEach((element) -> System.out.println(element.getNomeAttore() + " " + element.getCognomeAttore() + " " + element.getTitoloFilm()));
+        return ResponseEntity.status(200).body("");
+    }
+    @GetMapping("/attnom")
+    ResponseEntity<String> attnom(@RequestParam String nome)
+    {
+        ArrayList<Attore> subsetattore = (ArrayList<Attore>) attori.stream().filter(element -> element.getNome().equals(nome)).collect(Collectors.toList());
+        subsetattore.forEach((element) -> System.out.println(element.getNome() + " " + element.getCognome() + " " + element.getTipoRecit() + " " + element.getEta()));
+        return  ResponseEntity.status(200).body("");
+    }
 }
