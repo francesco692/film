@@ -18,6 +18,7 @@ public class Controller
     ArrayList<Regista> registi = new ArrayList<>();
     ArrayList<Cinema> cinema = new ArrayList<>();
     ArrayList<Partecipazione> part = new ArrayList<>();
+    ArrayList<Direzione> dir = new ArrayList<>();
     @PostMapping("/insertattori")
     ResponseEntity<String> insertAtt(@RequestBody String json)
     {
@@ -62,7 +63,7 @@ public class Controller
         boolean result1 = true;
         for(Attore item: attori)
         {
-            if(item.getNome().equals(json) && item.getCognome().equals(partecipazione.getCognomeAttore()))
+            if(item.getNome().equals(partecipazione.getNomeAttore()) && item.getCognome().equals(partecipazione.getCognomeAttore()))
             {
                 result1 = true;
                 break;
@@ -90,6 +91,44 @@ public class Controller
             part.add(partecipazione);
         }
         System.out.println(partecipazione.getNomeAttore() + " " + partecipazione.getCognomeAttore() + " " + partecipazione.getTitoloFilm());
+        return ResponseEntity.status(201).body(json);
+    }
+    @PostMapping("/insertdir")
+    ResponseEntity<String> insertDir(@RequestBody String json)
+    {
+        Gson gson = new Gson();
+        Direzione direzione = gson.fromJson(json, Direzione.class);
+        boolean result1 = true;
+        for(Regista item: registi)
+        {
+            if(item.getNome().equals(direzione.getNomeReg()) && item.getCognome().equals(direzione.getCognomeReg()))
+            {
+                result1 = true;
+                break;
+            }
+            else
+            {
+                result1 = false;
+            }
+        }
+        boolean result2 = true;
+        for(Film item1: film)
+        {
+            if(item1.getTitolo().equals(direzione.getTitoloFi()))
+            {
+                result2 = true;
+                break;
+            }
+            else
+            {
+                result2 = false;
+            }
+        }
+        if(result1 && result2)
+        {
+            dir.add(direzione);
+        }
+        System.out.println(direzione.getNomeReg() + " " + direzione.getCognomeReg() + " " + direzione.getTitoloFi());
         return ResponseEntity.status(201).body(json);
     }
 
