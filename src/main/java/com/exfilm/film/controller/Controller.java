@@ -19,6 +19,7 @@ public class Controller
     ArrayList<Cinema> cinema = new ArrayList<>();
     ArrayList<Partecipazione> part = new ArrayList<>();
     ArrayList<Direzione> dir = new ArrayList<>();
+    ArrayList<Proiezione> pro = new ArrayList<>();
     @PostMapping("/insertattori")
     ResponseEntity<String> insertAtt(@RequestBody String json)
     {
@@ -129,6 +130,44 @@ public class Controller
             dir.add(direzione);
         }
         System.out.println(direzione.getNomeReg() + " " + direzione.getCognomeReg() + " " + direzione.getTitoloFi());
+        return ResponseEntity.status(201).body(json);
+    }
+    @PostMapping("/insertpro")
+    ResponseEntity<String> insertPro(@RequestBody String json)
+    {
+        Gson gson = new Gson();
+        Proiezione proiezione = gson.fromJson(json, Proiezione.class);
+        boolean result1 = true;
+        for(Cinema item: cinema)
+        {
+            if(item.getNome().equals(proiezione.getNome_c()) && item.getCitta().equals(proiezione.getCitta_c()))
+            {
+                result1 = true;
+                break;
+            }
+            else
+            {
+                result1 = false;
+            }
+        }
+        boolean result2 = true;
+        for(Film item1: film)
+        {
+            if(item1.getTitolo().equals(proiezione.getT_film()))
+            {
+                result2 = true;
+                break;
+            }
+            else
+            {
+                result2 = false;
+            }
+        }
+        if(result1 && result2)
+        {
+            pro.add(proiezione);
+        }
+        System.out.println(proiezione.getNome_c() + " " + proiezione.getCitta_c() + " " + proiezione.getT_film());
         return ResponseEntity.status(201).body(json);
     }
 
