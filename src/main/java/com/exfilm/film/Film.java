@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class Film {
     private String titolo;
-    private LocalDate dataUscita;
+    private String dataUscita;
     private String genere;
-    Film(String titolo, LocalDate dataUscita, String genere)
+    Film(String titolo, String dataUscita, String genere)
     {
         this.titolo = titolo;
         this.dataUscita = dataUscita;
@@ -16,7 +16,7 @@ public class Film {
     {
         return titolo;
     }
-    public LocalDate getDataUscita()
+    public String getDataUscita()
     {
         return dataUscita;
     }

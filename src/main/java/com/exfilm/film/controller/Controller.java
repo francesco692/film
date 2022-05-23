@@ -1,9 +1,6 @@
 package com.exfilm.film.controller;
 
-import com.exfilm.film.Attore;
-import com.exfilm.film.Cinema;
-import com.exfilm.film.Film;
-import com.exfilm.film.Regista;
+import com.exfilm.film.*;
 import com.google.gson.Gson;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +17,7 @@ public class Controller
     ArrayList<Film> film = new ArrayList<>();
     ArrayList<Regista> registi = new ArrayList<>();
     ArrayList<Cinema> cinema = new ArrayList<>();
+    ArrayList<Partecipazione> part = new ArrayList<>();
     @PostMapping("/insertattori")
     ResponseEntity<String> insertAtt(@RequestBody String json)
     {
@@ -54,6 +52,44 @@ public class Controller
         Cinema cinema1 = gson.fromJson(json, Cinema.class);
         cinema.add(cinema1);
         System.out.println(cinema1.getNome() + " " + cinema1.getCitta() + " " + cinema1.getNumPosti() + " " + cinema1.getIndirizzo());
+        return ResponseEntity.status(201).body(json);
+    }
+    @PostMapping("/insertpart")
+    ResponseEntity<String> insertPart(@RequestBody String json)
+    {
+        Gson gson = new Gson();
+        Partecipazione partecipazione = gson.fromJson(json, Partecipazione.class);
+        boolean result1 = true;
+        for(Attore item: attori)
+        {
+            if(item.getNome().equals(json) && item.getCognome().equals(partecipazione.getCognomeAttore()))
+            {
+                result1 = true;
+                break;
+            }
+            else
+            {
+                result1 = false;
+            }
+        }
+        boolean result2 = true;
+        for(Film item1: film)
+        {
+            if(item1.getTitolo().equals(partecipazione.getTitoloFilm()))
+            {
+                result2 = true;
+                break;
+            }
+            else
+            {
+                result2 = false;
+            }
+        }
+        if(result1 && result2)
+        {
+            part.add(partecipazione);
+        }
+        System.out.println(partecipazione.getNomeAttore() + " " + partecipazione.getCognomeAttore() + " " + partecipazione.getTitoloFilm());
         return ResponseEntity.status(201).body(json);
     }
 
