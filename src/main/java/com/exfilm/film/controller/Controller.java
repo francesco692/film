@@ -37,5 +37,14 @@ public class Controller
         System.out.println(film1.getTitolo() + " " + film1.getGenere() + " " + film1.getDataUscita());
         return ResponseEntity.status(201).body(json);
     }
+    @GetMapping("/insertregista")
+    ResponseEntity<String> insertReg(@RequestBody String json)
+    {
+        Gson gson = new Gson();
+        Regista regista = gson.fromJson(json, Regista.class);
+        registi.add(regista);
+        System.out.println(regista.getNome() + " " + regista.getCognome() + " " + regista.getTipoRegia() + " " + regista.getTelefono() + " " + regista.getEta());
+        return ResponseEntity.status(201).body(json);
+    }
 
 }
