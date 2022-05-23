@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @RestController
-public class Controller {
+public class Controller
+{
     ArrayList<Attore> attori = new ArrayList<>();
     ArrayList<Film> film = new ArrayList<>();
     ArrayList<Regista> registi = new ArrayList<>();
@@ -27,4 +28,14 @@ public class Controller {
         System.out.println(attore.getNome() + " " + attore.getCognome() + " " + attore.getTipoRecit() + " " + attore.getTelefono() + " " + attore.getEta());
         return ResponseEntity.status(201).body(json);
     }
+    @GetMapping("/insertfilm")
+    ResponseEntity<String> insertFilm(@RequestBody String json)
+    {
+        Gson gson = new Gson();
+        Film film1 = gson.fromJson(json, Film.class);
+        film.add(film1);
+        System.out.println(film1.getTitolo() + " " + film1.getGenere() + " " + film1.getDataUscita());
+        return ResponseEntity.status(201).body(json);
+    }
+
 }
